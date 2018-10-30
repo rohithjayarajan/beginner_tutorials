@@ -110,27 +110,6 @@ rosrun beginner_tutorials talker
 
 This will produce an output similar to the below:
 ```
-[ INFO] [1540870090.946012164]: I heard: [Small step for a man 38]
-[ INFO] [1540870091.045869269]: I heard: [Small step for a man 39]
-[ INFO] [1540870091.145848990]: I heard: [Small step for a man 40]
-[ INFO] [1540870091.245844892]: I heard: [Small step for a man 41]
-[ INFO] [1540870091.345417764]: I heard: [Small step for a man 42]
-[ INFO] [1540870091.445901801]: I heard: [Small step for a man 43]
-[ INFO] [1540870091.545900712]: I heard: [Small step for a man 44]
-[ INFO] [1540870091.645711634]: I heard: [Small step for a man 45]
-[ INFO] [1540870091.745869826]: I heard: [Small step for a man 46]
-[ INFO] [1540870091.845894422]: I heard: [Small step for a man 47]
-[ INFO] [1540870091.945898786]: I heard: [Small step for a man 48]
-[ INFO] [1540870092.045894560]: I heard: [Small step for a man 49]
-[ INFO] [1540870092.145866303]: I heard: [Small step for a man 50]
-```
-
-In a new terminal, follow the below command to run the subscriber:
-```
-rosrun beginner_tutorials listener
-```
-This will produce an output similar to the below:
-```
 [ INFO] [1540870090.945308411]: Small step for a man 38
 [ INFO] [1540870091.045340713]: Small step for a man 39
 [ INFO] [1540870091.145322321]: Small step for a man 40
@@ -144,6 +123,27 @@ This will produce an output similar to the below:
 [ INFO] [1540870091.945339660]: Small step for a man 48
 [ INFO] [1540870092.045339571]: Small step for a man 49
 [ INFO] [1540870092.145312919]: Small step for a man 50
+```
+
+In a new terminal, follow the below command to run the subscriber:
+```
+rosrun beginner_tutorials listener
+```
+This will produce an output similar to the below:
+```
+[ INFO] [1540870090.946012164]: I heard: [Small step for a man 38]
+[ INFO] [1540870091.045869269]: I heard: [Small step for a man 39]
+[ INFO] [1540870091.145848990]: I heard: [Small step for a man 40]
+[ INFO] [1540870091.245844892]: I heard: [Small step for a man 41]
+[ INFO] [1540870091.345417764]: I heard: [Small step for a man 42]
+[ INFO] [1540870091.445901801]: I heard: [Small step for a man 43]
+[ INFO] [1540870091.545900712]: I heard: [Small step for a man 44]
+[ INFO] [1540870091.645711634]: I heard: [Small step for a man 45]
+[ INFO] [1540870091.745869826]: I heard: [Small step for a man 46]
+[ INFO] [1540870091.845894422]: I heard: [Small step for a man 47]
+[ INFO] [1540870091.945898786]: I heard: [Small step for a man 48]
+[ INFO] [1540870092.045894560]: I heard: [Small step for a man 49]
+[ INFO] [1540870092.145866303]: I heard: [Small step for a man 50]
 ```
 
 Kill the above three processes by pressing CTRL+C in the aforementioned terminals where roscore and rosrun have been run.
