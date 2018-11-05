@@ -29,8 +29,8 @@
 /**
  *  @file    talker.cpp
  *  @author  rohithjayarajan
- *  @date 10/27/2018
- *  @version 1.0
+ *  @date 11/4/2018
+ *  @version 1.1
  *
  *  @brief Code to create a publisher node
  *
@@ -47,6 +47,24 @@
 #include "ros/ros.h"
 // Message header
 #include "std_msgs/String.h"
+// Service header
+#include "beginner_tutorials/change_string.h"
+
+// decalare message to be published in data stream of type std::string
+std::string messageString("Small step for a man");
+
+/**
+ *   @brief This function provides the service changing the base output string
+ * in the published message
+ *
+ *   @param request and response type defined in srv file
+ *   @return boolean value indicating success
+ */
+bool add(beginner_tutorials::change_string::Request &req,
+         beginner_tutorials::change_string::Response &res) {
+  messageString = req.newString;
+  return true;
+}
 
 /**
  * This tutorial demonstrates simple sending of messages over the ROS system.
@@ -77,6 +95,9 @@ int main(int argc, char **argv) {
    * last NodeHandle destructed will close down the node.
    */
   ros::NodeHandle n;
+
+  // create service and advertise over ROS
+  ros::ServiceServer service = n.advertiseService("change_string", add);
 
   /**
    * The advertise() function is how you tell ROS that you want to
@@ -111,7 +132,7 @@ int main(int argc, char **argv) {
     std_msgs::String msg;
 
     std::stringstream ss;
-    ss << "Small step for a man " << count;
+    ss << messageString << " " << count;
     msg.data = ss.str();
 
     ROS_INFO("%s", msg.data.c_str());
