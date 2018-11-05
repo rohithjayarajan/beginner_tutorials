@@ -1,0 +1,5 @@
+# Incoming request of the service.
+string newString
+---
+# Response of the service.
+string newStringResp
