@@ -2,6 +2,11 @@
 
 <launch>
 
+  <env
+        name="ROSCONSOLE_CONFIG_FILE"
+        value="$(find beginner_tutorials)/config/beginner_tutorials_config.conf"
+  />
+
   <arg name = "frequency" default = "20" />
 
   <!-- Talker Node -->
