@@ -60,9 +60,11 @@ std::string messageString("Small step for a man");
  *   @param request and response type defined in srv file
  *   @return boolean value indicating success
  */
-bool add(beginner_tutorials::change_string::Request &req,
-         beginner_tutorials::change_string::Response &res) {
+bool editString(beginner_tutorials::change_string::Request &req,
+                beginner_tutorials::change_string::Response &res) {
+  ROS_WARN_STREAM("Message published by the talker node will be changed");
   messageString = req.newString;
+  ROS_INFO_STREAM("Changed message published by the talker");
   return true;
 }
 
@@ -96,8 +98,22 @@ int main(int argc, char **argv) {
    */
   ros::NodeHandle n;
 
+  // rate of publishing messages by node
+  double frequency = 10;
+
+  // check if custom frequency is requested in argument
+  if (argc == 2) {
+    ROS_DEBUG_STREAM("Frequency of publishing will be changed to " << argv[1]
+                                                                   << "Hz");
+    frequency = atoi(argv[1]);
+    if (frequency < 0) {
+      ROS_FATAL_STREAM("Rate of publishing can't be negative" << std::endl);
+      return -1;
+    }
+  }
+
   // create service and advertise over ROS
-  ros::ServiceServer service = n.advertiseService("change_string", add);
+  ros::ServiceServer service = n.advertiseService("change_string", editString);
 
   /**
    * The advertise() function is how you tell ROS that you want to
@@ -118,7 +134,7 @@ int main(int argc, char **argv) {
    */
   ros::Publisher chatter_pub = n.advertise<std_msgs::String>("chatter", 1000);
   // specifying rate at which to loop at
-  ros::Rate loop_rate(10);
+  ros::Rate loop_rate(frequency);
 
   /**
    * A count of how many messages we have sent. This is used to create
@@ -135,7 +151,17 @@ int main(int argc, char **argv) {
     ss << messageString << " " << count;
     msg.data = ss.str();
 
-    ROS_INFO("%s", msg.data.c_str());
+    // check if custom message is empty and print error to notify user
+    if (messageString == "") {
+      ROS_ERROR_STREAM(
+          "No message received as input. Are you sure message was entered "
+          "properly? "
+          << std::endl);
+    }
+    // echo the message heard from listener
+    else {
+      ROS_INFO("%s", msg.data.c_str());
+    }
 
     /**
      * The publish() function is how you send messages. The parameter
