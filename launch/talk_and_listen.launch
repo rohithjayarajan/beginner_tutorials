@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<launch>
+
+  <arg name = "frequency" default = "20" />
+
+  <!-- Talker Node -->
+  <node 
+  name = "talker"
+  type = "talker"
+  pkg = "beginner_tutorials"
+  output = "screen"
+  args = "$(arg frequency)"
+  />
+
+  <!-- Listener Node -->
+  <node
+  name="listener"
+  type="listener"
+  pkg="beginner_tutorials"
+  output="screen"
+  launch-prefix="gnome-terminal --command"
+  />
+</launch>
