@@ -29,8 +29,8 @@
 /**
  *  @file    talker.cpp
  *  @author  rohithjayarajan
- *  @date 11/4/2018
- *  @version 1.1
+ *  @date 11/6/2018
+ *  @version 1.2
  *
  *  @brief Code to create a publisher node
  *
@@ -41,18 +41,10 @@
  *
  */
 
-// C++ header
-#include <sstream>
-// ROS header
-#include "ros/ros.h"
-// Message header
-#include "std_msgs/String.h"
-// Service header
-#include "beginner_tutorials/change_string.h"
+// inlcude talker header file
+#include "talker.hpp"
 
-// decalare message to be published in data stream of type std::string
-std::string messageString("Small step for a man");
-
+dataStreamMessage publishStr;
 /**
  *   @brief This function provides the service changing the base output string
  * in the published message
@@ -63,7 +55,7 @@ std::string messageString("Small step for a man");
 bool editString(beginner_tutorials::change_string::Request &req,
                 beginner_tutorials::change_string::Response &res) {
   ROS_WARN_STREAM("Message published by the talker node will be changed");
-  messageString = req.newString;
+  publishStr.messageString = req.newString;
   ROS_INFO_STREAM("Changed message published by the talker");
   return true;
 }
@@ -148,18 +140,17 @@ int main(int argc, char **argv) {
     std_msgs::String msg;
 
     std::stringstream ss;
-    ss << messageString << " " << count;
+    ss << publishStr.messageString << " " << count;
     msg.data = ss.str();
 
     // check if custom message is empty and print error to notify user
-    if (messageString == "") {
+    if (publishStr.messageString == "") {
       ROS_ERROR_STREAM(
           "No message received as input. Are you sure message was entered "
           "properly? "
           << std::endl);
-    }
-    // echo the message heard from listener
-    else {
+    } else {
+      // echo the message heard from listener
       ROS_INFO("%s", msg.data.c_str());
     }
 
