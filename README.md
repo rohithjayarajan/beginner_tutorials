@@ -160,7 +160,7 @@ rosservice call /change_string "<custom_string>"
 
 When given custom string "giant leap for mankind" using a service call, an output similar to the below is produced in talker:
 ```
-ll step for a man 16
+[ INFO] [1541491519.430439864]: Small step for a man 16
 [ INFO] [1541491520.430588102]: Small step for a man 17
 [ INFO] [1541491521.430578899]: Small step for a man 18
 [ INFO] [1541491522.430512879]: Small step for a man 19
