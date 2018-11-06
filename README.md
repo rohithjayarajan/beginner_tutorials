@@ -96,16 +96,23 @@ catkin_make
 
 ## Run Instructions
 
-Follow the below comamnds in the terminal:
+Follow the below commands in the terminal to run both talker and listener using the launch file created (frequency of publishing can be modified here. Default=20):
+```
+cd ~/catkin_ws/
+source devel/setup.bash
+roslaunch beginner_tutorials talk_and_listen.launch frequency:=<value_of_publishing_rate_type_double>
+```
+
+Follow the below comamnds in the terminal to run talker and listener separately:
 ```
 cd ~/catkin_ws/
 source devel/setup.bash
 roscore
 ```
 
-In a new terminal, follow the below command to run the publisher:
+In a new terminal, follow the below command to run only the publisher (frequency of publishing can be modified here. Default=20):
 ```
-rosrun beginner_tutorials talker
+rosrun beginner_tutorials talker <value_of_publishing_rate_type_double>
 ```
 
 This will produce an output similar to the below:
@@ -125,7 +132,7 @@ This will produce an output similar to the below:
 [ INFO] [1540870092.145312919]: Small step for a man 50
 ```
 
-In a new terminal, follow the below command to run the subscriber:
+In a new terminal, follow the below command to run only the subscriber:
 ```
 rosrun beginner_tutorials listener
 ```
@@ -144,6 +151,47 @@ This will produce an output similar to the below:
 [ INFO] [1540870091.945898786]: I heard: [Small step for a man 48]
 [ INFO] [1540870092.045894560]: I heard: [Small step for a man 49]
 [ INFO] [1540870092.145866303]: I heard: [Small step for a man 50]
+```
+
+Once both nodes are running using either the roslaunch or rosrun method, in a new terminal, follow the below command to call the service (enter the custom string in double quotes):
+```
+rosservice call /change_string "<custom_string>"
+```
+
+When given custom string "giant leap for mankind" using a service call, an output similar to the below is produced in talker:
+```
+ll step for a man 16
+[ INFO] [1541491520.430588102]: Small step for a man 17
+[ INFO] [1541491521.430578899]: Small step for a man 18
+[ INFO] [1541491522.430512879]: Small step for a man 19
+[ INFO] [1541491523.430586864]: Small step for a man 20
+[ INFO] [1541491524.430506032]: Small step for a man 21
+[ WARN] [1541491524.430654923]: Message published by the talker node will be changed
+[ INFO] [1541491524.430697795]: Changed message published by the talker
+[ INFO] [1541491525.430489336]: giant leap for mankind 22
+[ INFO] [1541491526.430562885]: giant leap for mankind 23
+[ INFO] [1541491527.430524923]: giant leap for mankind 24
+[ INFO] [1541491528.430403725]: giant leap for mankind 25
+[ INFO] [1541491529.430578619]: giant leap for mankind 26
+[ INFO] [1541491530.430454509]: giant leap for mankind 27
+[ INFO] [1541491531.430607672]: giant leap for mankind 28
+```
+
+When given custom string "giant leap for mankind" using a service call, an output similar to the below is produced in listener:
+```
+[ INFO] [1541491519.430653829]: I heard: [Small step for a man 16]
+[ INFO] [1541491520.431087346]: I heard: [Small step for a man 17]
+[ INFO] [1541491521.431052072]: I heard: [Small step for a man 18]
+[ INFO] [1541491522.430990694]: I heard: [Small step for a man 19]
+[ INFO] [1541491523.431052525]: I heard: [Small step for a man 20]
+[ INFO] [1541491524.430970950]: I heard: [Small step for a man 21]
+[ INFO] [1541491525.430975187]: I heard: [giant leap for mankind 22]
+[ INFO] [1541491526.431013869]: I heard: [giant leap for mankind 23]
+[ INFO] [1541491527.431011497]: I heard: [giant leap for mankind 24]
+[ INFO] [1541491528.430582249]: I heard: [giant leap for mankind 25]
+[ INFO] [1541491529.431042541]: I heard: [giant leap for mankind 26]
+[ INFO] [1541491530.430942442]: I heard: [giant leap for mankind 27]
+[ INFO] [1541491531.431103188]: I heard: [giant leap for mankind 28]
 ```
 
 Kill the above three processes by pressing CTRL+C in the aforementioned terminals where roscore and rosrun have been run.
