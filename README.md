@@ -90,7 +90,7 @@ git clone --single-branch -b Week10_HW https://github.com/rohithjayarajan/beginn
 ```
 Follow the below comamnds to build the package
 ```
-cd ~/catkin_ws/src/
+cd ~/catkin_ws/
 catkin_make
 ```
 
