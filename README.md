@@ -112,6 +112,7 @@ roscore
 
 In a new terminal, follow the below command to run only the publisher (frequency of publishing can be modified here. Default=20):
 ```
+source devel/setup.bash
 rosrun beginner_tutorials talker <value_of_publishing_rate_type_double>
 ```
 
@@ -134,6 +135,7 @@ This will produce an output similar to the below:
 
 In a new terminal, follow the below command to run only the subscriber:
 ```
+source devel/setup.bash
 rosrun beginner_tutorials listener
 ```
 This will produce an output similar to the below:
@@ -155,6 +157,7 @@ This will produce an output similar to the below:
 
 Once both nodes are running using either the roslaunch or rosrun method, in a new terminal, follow the below command to call the service (enter the custom string in double quotes):
 ```
+source devel/setup.bash
 rosservice call /change_string "<custom_string>"
 ```
 
