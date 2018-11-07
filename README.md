@@ -86,7 +86,7 @@ source devel/setup.bash
 Follow the below comamnds and clone this package in the src folder of the catkin workspace 
 ```
 cd ~/catkin_ws/src/
-git clone https://github.com/rohithjayarajan/beginner_tutorials.git
+git clone --single-branch -b Week10_HW https://github.com/rohithjayarajan/beginner_tutorials.git
 ```
 Follow the below comamnds to build the package
 ```
