@@ -155,7 +155,9 @@ This will produce an output similar to the below:
 [ INFO] [1540870092.145866303]: I heard: [Small step for a man 50]
 ```
 
-Once both nodes are running using either the roslaunch or rosrun method, in a new terminal, follow the below command to call the service (enter the custom string in double quotes):
+## Service
+
+Once both nodes are running in the background using either the roslaunch or rosrun method, in a new terminal, follow the below command to call the service (enter the custom string in double quotes):
 ```
 source devel/setup.bash
 rosservice call /change_string "<custom_string>"
@@ -195,6 +197,21 @@ When given custom string "giant leap for mankind" using a service call, an outpu
 [ INFO] [1541491529.431042541]: I heard: [giant leap for mankind 26]
 [ INFO] [1541491530.430942442]: I heard: [giant leap for mankind 27]
 [ INFO] [1541491531.431103188]: I heard: [giant leap for mankind 28]
+```
+## Logging
+
+Once both nodes are running in the background using either the roslaunch or rosrun method, to visualize the logger messages in a GUI, in a new terminal follow the below commands
+
+```
+source devel/setup.bash
+rosrun rqt_console rqt_console
+```
+
+Once both nodes are running in the background using either the roslaunch or rosrun method, to visualize logger_level GUI, in a new terminal follow the below commands
+
+```
+source devel/setup.bash
+rosrun rqt_logger_level rqt_logger_level
 ```
 
 Kill the above three processes by pressing CTRL+C in the aforementioned terminals where roscore and rosrun have been run.
