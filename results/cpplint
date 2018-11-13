@@ -1,6 +1,8 @@
+Done processing ./test/talker_service_test.cpp
+Done processing ./test/main.cpp
 Done processing ./include/talker.hpp
-./src/talker.cpp:55:  Is this a non-const reference? If so, make const or use a pointer: beginner_tutorials::change_string::Request &req  [runtime/references] [2]
-./src/talker.cpp:56:  Is this a non-const reference? If so, make const or use a pointer: beginner_tutorials::change_string::Response &res  [runtime/references] [2]
+./src/talker.cpp:56:  Is this a non-const reference? If so, make const or use a pointer: beginner_tutorials::change_string::Request &req  [runtime/references] [2]
+./src/talker.cpp:57:  Is this a non-const reference? If so, make const or use a pointer: beginner_tutorials::change_string::Response &res  [runtime/references] [2]
 Done processing ./src/talker.cpp
 Done processing ./src/listener.cpp
 Total errors found: 2
