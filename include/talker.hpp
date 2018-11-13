@@ -29,8 +29,8 @@
 /**
  *  @file    talker.hpp
  *  @author  rohithjayarajan
- *  @date 11/6/2018
- *  @version 1.0
+ *  @date 11/13/2018
+ *  @version 1.3
  *
  *  @brief Header file for creation of a publisher node
  *
@@ -44,6 +44,7 @@
 #ifndef INCLUDE_TALKER_HPP_
 #define INCLUDE_TALKER_HPP_
 // C++ header
+#include <cmath>
 #include <sstream>
 #include <string>
 // ROS header

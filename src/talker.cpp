@@ -29,8 +29,8 @@
 /**
  *  @file    talker.cpp
  *  @author  rohithjayarajan
- *  @date 11/6/2018
- *  @version 1.2
+ *  @date 11/13/2018
+ *  @version 1.3
  *
  *  @brief Code to create a publisher node
  *
@@ -43,6 +43,7 @@
 
 // inlcude talker header file
 #include "talker.hpp"
+#include <tf/transform_broadcaster.h>
 
 dataStreamMessage publishStr;
 /**
@@ -90,6 +91,28 @@ int main(int argc, char **argv) {
    */
   ros::NodeHandle n;
 
+  // create a TransformBroadcaster object that will be used to send the
+  // transformations
+  static tf::TransformBroadcaster br;
+
+  // create a Transform object
+  tf::Transform transform;
+
+  // create a Quaternion object
+  tf::Quaternion q;
+
+  // define radius along x axis of ellipsoid
+  double a = 3;
+
+  // define radius along y axis of ellipsoid
+  double b = 1;
+
+  // define radius along z axis of ellipsoid
+  double c = 2;
+
+  // define angular velocity;
+  double w = 0.5 * M_PI;
+
   // rate of publishing messages by node
   double frequency = 10;
 
@@ -134,6 +157,22 @@ int main(int argc, char **argv) {
    */
   int count = 0;
   while (ros::ok()) {
+    // Get the time value from ROS
+    double t = ros::Time::now().toSec();
+
+    // Find the coordinate of frame at given time with fixed angular velocity
+    double theta = w * t;
+    double x = a * cos(theta / 4) * sin(theta / 2);
+    double y = b * sin(theta / 4) * cos(theta / 2);
+    double z = c * cos(theta / 2);
+
+    // set origin of frame
+    transform.setOrigin(tf::Vector3(x, y, z));
+
+    // set orientation of frame
+    q.setRPY(0.75 * M_PI, 0.25 * M_PI, theta);
+    transform.setRotation(q);
+
     /**
      * This is a message object. You stuff it with data, and then publish it.
      */
@@ -161,6 +200,9 @@ int main(int argc, char **argv) {
      * in the constructor above.
      */
     chatter_pub.publish(msg);
+    // broadcast transform
+    br.sendTransform(
+        tf::StampedTransform(transform, ros::Time::now(), "world", "talk"));
     // call the callbacks
     ros::spinOnce();
     // sleep for remaining time to hit 10Hz publish rate
