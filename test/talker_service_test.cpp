@@ -69,7 +69,7 @@ TEST(TESTSuite, srvTestExists) {
 }
 
 /**
- *   @brief test function to check if service exists
+ *   @brief test function to check if client is reporting correct message
  *
  *   @param TESTSuite, the gtest framework
  *   @param srvTestChangeStr, the name of test

@@ -56,7 +56,9 @@ dataStreamMessage publishStr;
 bool editString(beginner_tutorials::change_string::Request &req,
                 beginner_tutorials::change_string::Response &res) {
   ROS_WARN_STREAM("Message published by the talker node will be changed");
+  // set response equal to the request
   res.newStringResp = req.newString;
+  // set the message string equal to the response message string
   publishStr.messageString = res.newStringResp;
   ROS_INFO_STREAM("Changed message published by the talker");
   return true;
