@@ -283,7 +283,7 @@ With roscore and the talker node running in the backgorund, use the command `ros
 
 ## Running Rostest
 
-Rostest and gtest have been used to write the unit tests for the talker node service. Run the following commands in the terminal to build the tests
+Rostest and gtest have been used to write the unit tests for the talker node service. Run the following commands in a new terminal to build the tests
 
 ```
 cd ~/catkin_ws/
@@ -321,13 +321,14 @@ rostest log file is in /home/rohith/.ros/log/rostest-Skynet-1528.log
 
 ## Recording bag Files with the Launch File
 
-To record a rosbag containing all topics being published, follow the steps below in the terminal:
+To record a rosbag containing all topics being published, follow the steps below in a new terminal:
 
 ```
 cd ~/catkin_ws/
 source devel/setup.bash
 roslaunch beginner_tutorials talk_and_listen.launch record_all:=true
 ```
+Press `Ctrl + C` on the terminal above to stop recording data to bagfile. This will also kill the talker and listener nodes.
 
 Toggling the `record_all` parameter will enable or disable recording of a rosbag using the `roslaunch` command. Setting `record_all` to `true` will enable rosbag recording and setting `record_all` to `false` will disable rosbag recording. Default value of `record_all` parameter is `false` (rosbag is not recorded in default case)
 
