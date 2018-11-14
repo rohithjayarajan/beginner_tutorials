@@ -225,6 +225,14 @@ The talker node broadcasts a tf frame called `/talk` with parent `/world`. The t
 
 With roscore and the talker node running in the backgorund, use `rosrun tf view_frames` in a new terminal to view diagram of the frames being broadcast by tf over ROS. An output similar to the below is produced where a tf listener is listening to the frames that are being broadcast over ROS and drawing a tree of how the frames are connected, which is also saved in a .pdf file.
 
+Command to be entered in new terminal:
+
+```
+rosrun tf view_frames
+```
+
+Output of above command:
+
 ```
 Listening to /tf for 5.000000 seconds
 Done Listening
@@ -238,9 +246,23 @@ frames.pdf generated
 
 With roscore and the talker node running in the backgorund, use `rosrun rqt_tf_tree rqt_tf_tree` in a new terminal to use a runtime tool for visualizing the tree of frames being broadcast over ROS. You can refresh the tree simply by the refresh bottom in the top-left corner of the diagram. 
 
+Command to be entered in new terminal:
+
+```
+rosrun rqt_tf_tree rqt_tf_tree
+```
+
 ### Using tf_echo
 
 With roscore and the talker node running in the backgorund, use `rosrun tf tf_echo [reference_frame] [target_frame]` in a new terminal to get the information of the transform between any two frames broadcast over ROS. In our case, `[reference_frame]` will be `/world` and `[target_frame]` will be `/talk`. Hence `rosrun tf tf_echo /world /talk` will report the transform of `/talk` with respect to `/world`. An output similar to the below is produced on using the aforementioned command
+
+Command to be entered in new terminal:
+
+```
+rosrun tf tf_echo /world /talk
+```
+
+Output of above command:
 
 ```
 At time 1542153100.809
