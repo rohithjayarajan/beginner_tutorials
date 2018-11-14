@@ -6,8 +6,9 @@
 ## Overview
 
 A ROS package consisting of:
-- publisher node which publishes a data stream
+- publisher node which publishes a data stream and broadcasts a tf frame called /talk with parent /world
 - subscriber node which subscribes to the messages published by the publisher
+- level 2 integration tests, that tests publisher (talker) node service
 
 ## License
 ```
@@ -67,6 +68,9 @@ instructions can be found [here][reference-id-for-catkin]
 - roscpp
 - rospy
 - std_msgs
+- message_generation
+- genmsg
+- tf
 
 ## Build Instructions
 
@@ -86,7 +90,7 @@ source devel/setup.bash
 Follow the below comamnds and clone this package in the src folder of the catkin workspace 
 ```
 cd ~/catkin_ws/src/
-git clone --single-branch -b Week10_HW https://github.com/rohithjayarajan/beginner_tutorials.git
+git clone --single-branch -b Week11_HW https://github.com/rohithjayarajan/beginner_tutorials.git
 ```
 Follow the below comamnds to build the package
 ```
@@ -213,6 +217,158 @@ Once both nodes are running in the background using either the roslaunch or rosr
 source devel/setup.bash
 rosrun rqt_logger_level rqt_logger_level
 ```
+## Inspecting TF 
+
+The talker node broadcasts a tf frame called `/talk` with parent `/world`. The transform has non-zero translation and rotation which is time-variant.
+
+### Using view_frames
+
+With roscore and the talker node running in the backgorund, use `rosrun tf view_frames` in a new terminal to view diagram of the frames being broadcast by tf over ROS. An output similar to the below is produced where a tf listener is listening to the frames that are being broadcast over ROS and drawing a tree of how the frames are connected, which is also saved in a .pdf file.
+
+```
+Listening to /tf for 5.000000 seconds
+Done Listening
+dot - graphviz version 2.38.0 (20140413.2041)
+
+Detected dot version 2.38
+frames.pdf generated
+```
+
+### Using rqt_tf_tree
+
+With roscore and the talker node running in the backgorund, use `rosrun rqt_tf_tree rqt_tf_tree` in a new terminal to use a runtime tool for visualizing the tree of frames being broadcast over ROS. You can refresh the tree simply by the refresh bottom in the top-left corner of the diagram. 
+
+### Using tf_echo
+
+With roscore and the talker node running in the backgorund, use `rosrun tf tf_echo [reference_frame] [target_frame]` in a new terminal to get the information of the transform between any two frames broadcast over ROS. In our case, `[reference_frame]` will be `/world` and `[target_frame]` will be `/talk`. Hence `rosrun tf tf_echo /world /talk` will report the transform of `/talk` with respect to `/world`. An output similar to the below is produced on using the aforementioned command
+
+```
+At time 1542153100.809
+- Translation: [-1.538, 1.057, 0.014]
+- Rotation: in Quaternion [0.600, 0.624, -0.075, -0.494]
+            in RPY (radian) [-2.200, -0.556, 1.322]
+            in RPY (degree) [-126.061, -31.852, 75.756]
+At time 1542153101.509
+- Translation: [-1.473, 0.318, 0.896]
+- Rotation: in Quaternion [0.185, 0.846, 0.195, -0.461]
+            in RPY (radian) [2.835, -1.019, 2.882]
+            in RPY (degree) [162.423, -58.366, 165.144]
+```
+
+### rviz and tf
+
+With roscore and the talker node running in the backgorund, use the command `rosrun rviz rviz` in a new terminal. This should open rviz which is a visualization tool that is useful for examining tf frames. Once rviz has been opened, set the `Fixed Frame` to `world` in `Global Options`, and then add a tf frame with `talk` and `world` frame enabled. This will help visualize the motion of `talk` frame in a precomputed trajectory as specified in the talker node.
+
+## Running Rostest
+
+Rostest and gtest have been used to write the unit tests for the talker node service. Run the following commands in the terminal to build the tests
+
+```
+cd ~/catkin_ws/
+source devel/setup.bash
+catkin_make run_tests_beginner_tutorials
+```
+
+After building it, run the tests using the following commands in a the terminal
+
+```
+cd ~/catkin_ws/
+source devel/setup.bash
+rostest beginner_tutorials talker_service_test.launch
+```
+
+An output similar to the below is produced on following the above command
+
+```
+[ROSUNIT] Outputting test results to /home/rohith/.ros/test_results/beginner_tutorials/rostest-test_talker_service_test.xml
+[Testcase: testtalker_service_test] ... ok
+
+[ROSTEST]-----------------------------------------------------------------------
+
+[beginner_tutorials.rosunit-talker_service_test/srvTestExists][passed]
+[beginner_tutorials.rosunit-talker_service_test/srvTestChangeStr][passed]
+
+SUMMARY
+ * RESULT: SUCCESS
+ * TESTS: 2
+ * ERRORS: 0
+ * FAILURES: 0
+
+rostest log file is in /home/rohith/.ros/log/rostest-Skynet-1528.log
+```
+
+## Recording bag Files with the Launch File
+
+To record a rosbag containing all topics being published, follow the steps below in the terminal:
+
+```
+cd ~/catkin_ws/
+source devel/setup.bash
+roslaunch beginner_tutorials talk_and_listen.launch record_all:=true
+```
+
+Toggling the `record_all` parameter will enable or disable recording of a rosbag using the `roslaunch` command. Setting `record_all` to `true` will enable rosbag recording and setting `record_all` to `false` will disable rosbag recording. Default value of `record_all` parameter is `false` (rosbag is not recorded in default case)
+
+## Inspecting the bag File
+
+`rosbag info <your bagfile>` helps to inspect a recorded rosbag. In our case, the recorded bag file is record_all.bag. Open the terminal in the folder where the .bag file of interest is present and use the following command to inspect it:
+
+```
+cd ~/catkin_ws/src/beginner_tutorials/results
+rosbag info record_all.bag
+```
+
+An output similar to the below is produced on following the above command
+
+```
+path:        record_all.bag
+version:     2.0
+duration:    16.1s
+start:       Nov 13 2018 17:34:08.42 (1542148448.42)
+end:         Nov 13 2018 17:34:24.50 (1542148464.50)
+size:        370.3 KB
+messages:    1884
+compression: none [1/1 chunks]
+types:       rosgraph_msgs/Log  [acffd30cd6b6de30f120938c17c593fb]
+             std_msgs/String    [992ce8a1687cec8c8bd883ec73ca41d1]
+             tf2_msgs/TFMessage [94810edda583a504dfda3829e70d7eec]
+topics:      /chatter      318 msgs    : std_msgs/String   
+             /rosout       624 msgs    : rosgraph_msgs/Log  (3 connections)
+             /rosout_agg   624 msgs    : rosgraph_msgs/Log 
+             /tf           318 msgs    : tf2_msgs/TFMessage
+```
+
+
+## Playing Back the bag File with the Listener Node
+
+Once the bag file of publisher topics has been generated and saved, use the below commands to play back the bag file with the listener node
+
+In a new terminal, follow the below command
+
+```
+roscore
+```
+
+In a new terminal, follow the below commands
+
+```
+cd ~/catkin_ws/
+source devel/setup.bash
+rosrun beginner_tutorials listener
+```
+
+By doing the above, we have started the listener node
+
+In a new terminal, follow the below commands
+
+```
+cd ~/catkin_ws/src/beginner_tutorials/results
+rosbag play record_all.bag
+```
+
+By doing this, the listener node is able to subscribe from the messages that is being played by the rosbag
+
+## Killing Processes
 
 Kill the above three processes by pressing CTRL+C in the aforementioned terminals where roscore and rosrun have been run.
 Another way to kill the nodes is by running the below command in a new terminal
